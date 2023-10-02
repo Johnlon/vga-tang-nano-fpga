@@ -1,0 +1,26 @@
+IO_LOC  "clk" 52;
+IO_PORT "clk" PULL_MODE=UP;
+
+IO_LOC  "visible" 76;
+IO_PORT "visible" DRIVE=8;
+
+IO_LOC  "hSync" 70;
+IO_PORT "hSync" DRIVE=8;
+
+IO_LOC  "vSync" 71;
+IO_PORT "vSync" DRIVE=8;
+
+IO_LOC  "hFront" 72;
+IO_PORT "hFront" DRIVE=8;
+
+IO_LOC  "hBack" 73;
+IO_PORT "hBack" DRIVE=8;
+
+IO_LOC  "vFront" 74;
+IO_PORT "vFront" DRIVE=8;
+
+IO_LOC  "vBack" 75;
+IO_PORT "vBack" DRIVE=8;
+
+IO_LOC  "led" 10;
+IO_PORT "led" DRIVE=8;
