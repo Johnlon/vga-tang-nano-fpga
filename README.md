@@ -12,3 +12,7 @@ Also blinks the LED so I knoww it's actrually running without hooking up the osc
 I will try experiments like making the sync signals actually take an entire half cycle of the horizontal with just one of the edges in the right place, and I'll try a signal with and without porches and see what monitor does.
 
 Of course any results are not necessarily predicting what some other monitor would do.
+
+# Getting started
+
+I followed these instructions using VSCode https://learn.lushaylabs.com/getting-setup-with-the-tang-nano-9k/
