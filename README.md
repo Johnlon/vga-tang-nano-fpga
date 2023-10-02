@@ -25,3 +25,5 @@ Also I already know Verilog from SPAM-1 my CPU (see other git repo) so that's al
 # Getting started
 
 I followed these instructions using VSCode https://learn.lushaylabs.com/getting-setup-with-the-tang-nano-9k/
+
+Pinout is recorded in the *.cst file.
