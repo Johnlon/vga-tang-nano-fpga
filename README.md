@@ -27,3 +27,7 @@ Also I already know Verilog from SPAM-1 my CPU (see other git repo) so that's al
 I followed these instructions using VSCode https://learn.lushaylabs.com/getting-setup-with-the-tang-nano-9k/
 
 Pinout is recorded in the *.cst file.
+
+# VGA timings
+
+I used these timings .. http://tinyvga.com/vga-timing/640x480@60Hz
