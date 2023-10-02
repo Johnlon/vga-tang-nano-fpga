@@ -1,4 +1,4 @@
-# Vga Experiments with Tang Nano 9 FPGA
+# VGA Experiments with Tang Nano 9 FPGA
 
 Experiments using a cheap Tang Nano 9 to generate VGA signals. 
 
