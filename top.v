@@ -1,3 +1,4 @@
+/* vim: syntax=C */
 
 `ifndef  TOP_MOD
 `define  TOP_MOD
