@@ -22,6 +22,10 @@ The ESP32 on the other hand was a different story. The ESP32 is not bare metal l
 So ... FPGA gives me the best trade off and it's also a new experience. I get VERY fine grained control and the signal timing is rock solid.
 Also I already know Verilog from SPAM-1 my CPU (see other git repo) so that's also a bonus.
 
+# Results
+
+No video, yet if at all, but see these notes on the timing experiments https://github.com/Johnlon/vga-tang-nano-fpga/blob/main/top.v#L74-L104
+
 # Getting started
 
 I followed these instructions using VSCode https://learn.lushaylabs.com/getting-setup-with-the-tang-nano-9k/
