@@ -47,6 +47,7 @@ module top
 (
 	output reg led,
 	input clk,
+	output r,
 	output visible,
 	output hSync,
 	output vSync,
@@ -68,19 +69,61 @@ module top
 	reg [9:0] vCount = 0;
 	reg [10:0] frames = 0;
 	reg [10:0] lines = 0;
+
+	/*
+	// pushes visible area to the right by about 1cm
+	localparam HACTIVE = 640;
+	localparam HFRONT = 0; //16;
+	localparam HSYNC = 96+16;
+	localparam HBACK = 48;
+	// this brings the screen 50% of the shift back to the left
+	localparam HACTIVE = 640;
+	localparam HFRONT = 8; //16;
+	localparam HSYNC = 96+8;
+	localparam HBACK = 48;
+	// pushes the screen to the left as much as the +16 case pushed right
+	localparam HACTIVE = 640;
+	localparam HFRONT = 32; //16;
+	localparam HSYNC = 96+-16;
+	localparam HBACK = 48;
+	// pushs to right same amount as HFRONT=32 above
+	localparam HACTIVE = 640;
+	localparam HFRONT = 16;
+	localparam HSYNC = 96+24;
+	localparam HBACK = 48-24;
+	// shifts more to the right and drags right side of pic into left
+	localparam HACTIVE = 640;
+	localparam HFRONT = 16;
+	localparam HSYNC = 96+48;
+	localparam HBACK = 0;
+	// no porches at all - total h time is consistent with 640x480 and monitor syncs
+	// same  as prev case but image is shifted more to right 
+	localparam HACTIVE = 640;
+	localparam HFRONT = 0;
+	localparam HSYNC = 96+48+16;
+	localparam HBACK = 0;
+	*/
+	localparam HACTIVE = 640;
+	localparam HFRONT = 16;
+	localparam HSYNC = 96;
+	localparam HBACK = 48;
 	
-	wire activeH = hCount <  `adj(640);
-	wire hFront  = hCount >= `adj(640) && hCount < `adj(640+16);
-	wire hSync   = hCount >= `adj(640+16) && hCount < `adj(640+16+96);
-	wire hBack   = hCount >= `adj(640+16+96) && hCount < `adj(640+16+96+48);
-	wire hEnd    = hCount == `adj(640+16+96+48-1);
-	
+	wire activeH = hCount <  `adj(HACTIVE);
+	wire hFront  = hCount >= `adj(HACTIVE) && hCount < `adj(HACTIVE+HFRONT);
+	wire hSync   = hCount >= `adj(HACTIVE+HFRONT) && hCount < `adj(HACTIVE+HFRONT+HSYNC);
+	//wire hSync   = hCount >= `adj(HACTIVE+HFRONT) && hCount < `adj(HACTIVE+HFRONT+(2*HSYNC)); // syncs but shifted
+	//wire hSync   = hCount >= `adj(0) && hCount < `adj(HACTIVE+HFRONT+HSYNC)); // syncs but shifted
+	wire hBack   = hCount >= `adj(HACTIVE+HFRONT+HSYNC) && hCount < `adj(HACTIVE+HFRONT+HSYNC+HBACK);
+	wire hEnd    = hCount == `adj(HACTIVE+HFRONT+HSYNC+HBACK-1);
+
 	// lines
 	wire activeV = vCount <  (480);
 	wire vFront  = vCount >= (480) && vCount < (480+10);
 	wire vSync   = vCount >= (480+10) && vCount < (480+10+2);
 	wire vBack   = vCount >= (480+10+2) && vCount < (480+10+2+33);
 	wire vEnd    = vCount == (480+10+2+33-1);
+
+	assign r = visible & hCount[3:3];
 
 reg [23:0] counter;
 always @(posedge clk ) begin // Counter block

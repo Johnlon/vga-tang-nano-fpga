@@ -1,3 +1,6 @@
+IO_LOC  "r" 77;
+IO_PORT "r" DRIVE=8;
+
 IO_LOC  "clk" 52;
 IO_PORT "clk" PULL_MODE=UP;
 
