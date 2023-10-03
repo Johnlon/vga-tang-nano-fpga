@@ -107,14 +107,48 @@ module top
 	localparam HFRONT = 16;
 	localparam HSYNC = 96;
 	localparam HBACK = 48;
+
+
+	localparam sHVISIBLE = 0;
+	localparam sHFRONT = 1;
+	localparam sHSYNC = 2;
+	localparam sHBACK = 4;
+
 	
-	wire activeH = hCount <  `adj(HACTIVE);
-	wire hFront  = hCount >= `adj(HACTIVE) && hCount < `adj(HACTIVE+HFRONT);
-	wire hSync   = hCount >= `adj(HACTIVE+HFRONT) && hCount < `adj(HACTIVE+HFRONT+HSYNC);
-	//wire hSync   = hCount >= `adj(HACTIVE+HFRONT) && hCount < `adj(HACTIVE+HFRONT+(2*HSYNC)); // syncs but shifted
-	//wire hSync   = hCount >= `adj(0) && hCount < `adj(HACTIVE+HFRONT+HSYNC)); // syncs but shifted
-	wire hBack   = hCount >= `adj(HACTIVE+HFRONT+HSYNC) && hCount < `adj(HACTIVE+HFRONT+HSYNC+HBACK);
-	wire hEnd    = hCount == `adj(HACTIVE+HFRONT+HSYNC+HBACK-1);
+	wire activeH = state == sHVISIBLE;
+	wire hFront  = state == sHFRONT;
+	wire hSync   = state == sHSYNC;
+	wire hBack   = state == sHBACK;
+
+	reg[2:0] state = sHVISIBLE;
+
+	always @(posedge clk ) begin
+
+		if (hCount == `adj(HACTIVE+HFRONT+HSYNC+HBACK)) begin
+			hCount <= 0;
+
+			lines <= lines + 1;
+			if (vEnd) begin
+				vCount <= 0;
+				frames <= frames + 1;
+			end else
+				vCount <= vCount + 1;
+		end else begin
+			hCount <= hCount + 1;
+		end
+
+		if (hCount == `adj(HACTIVE)) 
+			state <= sHFRONT; 
+		else if (hCount == `adj(HACTIVE+HFRONT)) 
+			state <= sHSYNC; 
+		else if (hCount == `adj(HACTIVE+HFRONT+HSYNC)) 
+			state <= sHBACK;
+		else if (hCount == `adj(HACTIVE+HFRONT+HSYNC+HBACK)) 
+			state <= sHVISIBLE;
+
+	end
+
+
 
 	// lines
 	wire activeV = vCount <  (480);
@@ -137,21 +171,6 @@ always @(posedge clk ) begin // Toggle LED
     if (counter == 24'd1349_9999)       // 0.5s delay
         led <= ~led;                         // ToggleLED
 end
-
-
-	always @(posedge clk) begin
-		if (hEnd) begin
-			hCount <= 0; 
-			lines <= lines + 1;
-			if (vEnd) begin
-				vCount <= 0;
-				frames <= frames + 1;
-			end else
-				vCount <= vCount + 1;
-		end
-		else
-			hCount <= hCount + 1;
-	end
 
 	assign visible = activeH && activeV;
 	
