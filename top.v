@@ -1,4 +1,4 @@
-/* vim: syntax=C */
+/* vim: syntax=verilog */
 
 `ifndef  TOP_MOD
 `define  TOP_MOD
